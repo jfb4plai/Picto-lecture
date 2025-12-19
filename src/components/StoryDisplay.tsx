@@ -231,7 +231,14 @@ export const StoryDisplay = ({
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+        <div className="flex items-center gap-3">
+          <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+          {hideTextUnderPictograms && (
+            <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">
+              Mode sans texte
+            </span>
+          )}
+        </div>
         <div className="flex gap-2">
           <button
             onClick={onSave}

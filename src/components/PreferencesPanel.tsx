@@ -32,8 +32,12 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
       .maybeSingle();
 
     if (data) {
-      setPreferences(data);
-      onPreferencesChange(data);
+      const prefsWithDefaults = {
+        ...data,
+        hide_text_under_pictograms: data.hide_text_under_pictograms ?? false
+      };
+      setPreferences(prefsWithDefaults);
+      onPreferencesChange(prefsWithDefaults);
     }
     setLoading(false);
   };
@@ -177,7 +181,7 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
             </div>
             <input
               type="checkbox"
-              checked={preferences.hide_text_under_pictograms}
+              checked={preferences.hide_text_under_pictograms ?? false}
               onChange={(e) =>
                 setPreferences({ ...preferences, hide_text_under_pictograms: e.target.checked })
               }
