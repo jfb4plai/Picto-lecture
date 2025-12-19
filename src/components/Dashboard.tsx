@@ -172,6 +172,7 @@ export const Dashboard = () => {
                 onSave={handleSaveStory}
                 saving={saving}
                 language={preferences.language}
+                hideTextUnderPictograms={preferences.hide_text_under_pictograms || false}
               />
             )}
 

@@ -20,6 +20,7 @@ type StoryDisplayProps = {
   onSave: () => void;
   saving: boolean;
   language: string;
+  hideTextUnderPictograms: boolean;
 };
 
 type AlternativePictogram = {
@@ -36,6 +37,7 @@ export const StoryDisplay = ({
   onSave,
   saving,
   language,
+  hideTextUnderPictograms,
 }: StoryDisplayProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
@@ -171,12 +173,14 @@ export const StoryDisplay = ({
           innerDiv.style.alignItems = 'center';
         }
 
-        const textSpan = span.querySelector('span');
-        if (textSpan) {
-          const textEl = textSpan as HTMLElement;
-          textEl.style.fontSize = `${fontSize * 0.75}px`;
-          textEl.style.marginTop = '0px';
-          textEl.style.lineHeight = '1.1';
+        if (!hideTextUnderPictograms) {
+          const textSpan = span.querySelector('span');
+          if (textSpan) {
+            const textEl = textSpan as HTMLElement;
+            textEl.style.fontSize = `${fontSize * 0.75}px`;
+            textEl.style.marginTop = '0px';
+            textEl.style.lineHeight = '1.1';
+          }
         }
       });
 
@@ -296,13 +300,15 @@ export const StoryDisplay = ({
                       target.style.display = 'none';
                     }}
                   />
-                  <span
-                    className="text-gray-800 text-center font-medium"
-                    style={{ fontSize: `${fontSize}px` }}
-                    title={word.isAmbiguous ? `Mot ambigu (${word.type})` : word.type}
-                  >
-                    {word.original}
-                  </span>
+                  {!hideTextUnderPictograms && (
+                    <span
+                      className="text-gray-800 text-center font-medium"
+                      style={{ fontSize: `${fontSize}px` }}
+                      title={word.isAmbiguous ? `Mot ambigu (${word.type})` : word.type}
+                    >
+                      {word.original}
+                    </span>
+                  )}
                   {word.isAmbiguous && (
                     <button
                       onClick={() => handleEditWord(index)}

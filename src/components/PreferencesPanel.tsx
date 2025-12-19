@@ -65,6 +65,7 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
         replace_adjectives: preferences.replace_adjectives,
         font_size: preferences.font_size,
         line_spacing: preferences.line_spacing,
+        hide_text_under_pictograms: preferences.hide_text_under_pictograms,
       })
       .eq('user_id', user.id);
 
@@ -168,6 +169,23 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
       </div>
 
       <div className="space-y-6">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <label className="flex items-center justify-between cursor-pointer">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-800 mb-1">Masquer le texte sous les pictogrammes</h3>
+              <p className="text-xs text-gray-600">Pour les exercices oraux ou les dictées où l'apprenant doit uniquement voir l'image</p>
+            </div>
+            <input
+              type="checkbox"
+              checked={preferences.hide_text_under_pictograms}
+              onChange={(e) =>
+                setPreferences({ ...preferences, hide_text_under_pictograms: e.target.checked })
+              }
+              className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+            />
+          </label>
+        </div>
+
         <div>
           <h3 className="text-sm font-semibold text-gray-700 mb-3">Langue</h3>
           <select

@@ -18,6 +18,7 @@ export type UserPreferences = {
   replace_adjectives: boolean;
   font_size: number;
   line_spacing: number;
+  hide_text_under_pictograms: boolean;
   created_at: string;
   updated_at: string;
 };
