@@ -173,13 +173,16 @@ export const StoryDisplay = ({
           innerDiv.style.alignItems = 'center';
         }
 
-        if (!hideTextUnderPictograms) {
-          const textSpan = span.querySelector('span');
-          if (textSpan) {
-            const textEl = textSpan as HTMLElement;
-            textEl.style.fontSize = `${fontSize * 0.75}px`;
-            textEl.style.marginTop = '0px';
-            textEl.style.lineHeight = '1.1';
+        const textSpan = span.querySelector('span');
+        if (textSpan) {
+          const textEl = textSpan as HTMLElement;
+          textEl.style.fontSize = `${fontSize * 0.75}px`;
+          textEl.style.marginTop = '0px';
+          textEl.style.lineHeight = '1.1';
+
+          if (hideTextUnderPictograms) {
+            textEl.style.color = 'transparent';
+            textEl.style.opacity = '0';
           }
         }
       });
