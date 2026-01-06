@@ -262,7 +262,8 @@ function analyzeWordInContext(
         'nuit', 'main', 'pied', 'tete', 'corps', 'coeur', 'yeux', 'bouche', 'nez', 'oreille',
         'cheval', 'garcon', 'fille', 'homme', 'femme', 'pere', 'mere', 'frere', 'soeur', 'roi',
         'reine', 'prince', 'princesse', 'chateau', 'jardin', 'foret', 'montagne', 'mer', 'riviere',
-        'ville', 'pays', 'monde', 'ciel', 'etoile', 'nuage', 'pluie', 'vent', 'neige'
+        'ville', 'pays', 'monde', 'ciel', 'etoile', 'nuage', 'pluie', 'vent', 'neige', 'professeur',
+        'lunette', 'lunettes', 'sac'
       ],
       verbs: [
         'est', 'sont', 'etre', 'suis', 'es', 'sommes', 'etes', 'etait', 'etaient', 'sera', 'seront',
@@ -289,7 +290,8 @@ function analyzeWordInContext(
         'lit', 'lis', 'lisons', 'lisez', 'lisent', 'lire', 'lisait', 'lisaient',
         'ecrit', 'ecris', 'ecrivons', 'ecrivez', 'ecrivent', 'ecrire', 'ecrivait', 'ecrivaient',
         'regarde', 'regardes', 'regardons', 'regardez', 'regardent', 'regarder', 'regardait', 'regardaient',
-        'ecoute', 'ecoutes', 'ecoutons', 'ecoutez', 'ecoutent', 'ecouter', 'ecoutait', 'ecoutaient'
+        'ecoute', 'ecoutes', 'ecoutons', 'ecoutez', 'ecoutent', 'ecouter', 'ecoutait', 'ecoutaient',
+        'porte'
       ],
       adjectives: [
         'grand', 'grande', 'grands', 'grandes', 'petit', 'petite', 'petits', 'petites',
@@ -306,19 +308,29 @@ function analyzeWordInContext(
         'gris', 'grise', 'grises', 'marron', 'marrons', 'beige', 'beiges',
         'chaud', 'chaude', 'chauds', 'chaudes', 'froid', 'froide', 'froids', 'froides',
         'rapide', 'rapides', 'lent', 'lente', 'lents', 'lentes',
-        'fort', 'forte', 'forts', 'fortes', 'faible', 'faibles'
+        'fort', 'forte', 'forts', 'fortes', 'faible', 'faibles', 'gros'
       ],
-      determiners: ['le', 'la', 'les', 'un', 'une', 'des', 'ce', 'cet', 'cette', 'ces', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'notre', 'nos', 'votre', 'vos', 'leur', 'leurs', 'du', 'de', 'au', 'aux']
+      determiners: ['le', 'la', 'les', 'un', 'une', 'des', 'ce', 'cet', 'cette', 'ces', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'notre', 'nos', 'votre', 'vos', 'leur', 'leurs', 'du', 'de', 'au', 'aux'],
+      prepositions: ['a', 'dans', 'sur', 'sous', 'avec', 'sans', 'pour', 'par', 'en', 'chez', 'vers', 'entre', 'parmi', 'pendant', 'depuis', 'jusque', 'avant', 'apres', 'contre', 'devant', 'derriere']
     },
     en: {
       nouns: ['house', 'cat', 'dog', 'child', 'school', 'book', 'table', 'chair', 'door', 'window', 'car', 'tree', 'flower', 'sun', 'moon', 'water', 'bread', 'friend', 'family', 'day', 'night', 'hand', 'foot', 'head', 'body', 'heart', 'eyes', 'mouth', 'nose', 'ear', 'horse', 'boy', 'girl', 'man', 'woman', 'father', 'mother', 'brother', 'sister', 'king', 'queen', 'prince', 'princess'],
       verbs: ['is', 'are', 'am', 'be', 'was', 'were', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'go', 'goes', 'went', 'going', 'come', 'comes', 'came', 'coming', 'see', 'sees', 'saw', 'seeing', 'say', 'says', 'said', 'saying', 'give', 'gives', 'gave', 'giving', 'take', 'takes', 'took', 'taking', 'speak', 'speaks', 'spoke', 'speaking', 'love', 'loves', 'loved', 'loving', 'want', 'wants', 'wanted', 'wanting', 'know', 'knows', 'knew', 'knowing', 'eat', 'eats', 'ate', 'eating', 'drink', 'drinks', 'drank', 'drinking', 'sleep', 'sleeps', 'slept', 'sleeping', 'run', 'runs', 'ran', 'running', 'walk', 'walks', 'walked', 'walking', 'play', 'plays', 'played', 'playing', 'read', 'reads', 'reading', 'write', 'writes', 'wrote', 'writing', 'watch', 'watches', 'watched', 'watching', 'listen', 'listens', 'listened', 'listening'],
       adjectives: ['big', 'small', 'good', 'bad', 'beautiful', 'pretty', 'young', 'old', 'new', 'ancient', 'happy', 'sad', 'red', 'blue', 'green', 'yellow', 'white', 'black', 'hot', 'cold', 'fast', 'slow', 'strong', 'weak'],
-      determiners: ['the', 'a', 'an', 'this', 'that', 'these', 'those', 'my', 'your', 'his', 'her', 'its', 'our', 'their']
+      determiners: ['the', 'a', 'an', 'this', 'that', 'these', 'those', 'my', 'your', 'his', 'her', 'its', 'our', 'their'],
+      prepositions: ['in', 'on', 'at', 'to', 'from', 'with', 'without', 'for', 'by', 'about', 'under', 'over', 'between', 'among', 'during', 'before', 'after', 'against']
     }
   };
 
   const dict = dictionaries[language as keyof typeof dictionaries] || dictionaries.fr;
+
+  if (dict.determiners.includes(word)) {
+    return { type: 'determiner', ambiguous: false };
+  }
+
+  if (dict.prepositions && dict.prepositions.includes(word)) {
+    return { type: 'preposition', ambiguous: false };
+  }
 
   const stateVerbs = ['est', 'sont', 'etait', 'etaient', 'sera', 'seront', 'suis', 'es', 'sommes', 'etes'];
 
