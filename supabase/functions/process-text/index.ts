@@ -200,10 +200,14 @@ async function processTextSegment(
 
       if (
         (wordType === 'noun' && replaceNouns) ||
+        (wordType === 'potential-noun' && replaceNouns) ||
         (wordType === 'verb' && replaceVerbs) ||
         (wordType === 'adjective' && replaceAdjectives)
       ) {
         shouldReplace = true;
+        if (wordType === 'potential-noun') {
+          wordType = 'noun';
+        }
       }
     }
 
@@ -375,14 +379,18 @@ function analyzeWordInContext(
   }
 
   if (context.prev && dict.determiners.includes(context.prev)) {
-    return { type: 'noun', ambiguous: false };
+    return { type: 'noun', ambiguous: true };
+  }
+
+  if (context.prev && dict.adjectives.includes(context.prev)) {
+    return { type: 'noun', ambiguous: true };
   }
 
   if (word.length > 2 && (word.endsWith('er') || word.endsWith('ir') || word.endsWith('re') || word.endsWith('oir'))) {
     return { type: 'verb', ambiguous: true };
   }
 
-  return { type: 'unknown', ambiguous: true };
+  return { type: 'potential-noun', ambiguous: true };
 }
 
 async function searchPictogram(word: string, language: string): Promise<{ id: number; url: string } | null> {
