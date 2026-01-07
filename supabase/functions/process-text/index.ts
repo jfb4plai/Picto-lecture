@@ -311,14 +311,16 @@ function analyzeWordInContext(
         'fort', 'forte', 'forts', 'fortes', 'faible', 'faibles', 'gros'
       ],
       determiners: ['le', 'la', 'les', 'un', 'une', 'des', 'ce', 'cet', 'cette', 'ces', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'notre', 'nos', 'votre', 'vos', 'leur', 'leurs', 'du', 'de', 'au', 'aux'],
-      prepositions: ['a', 'dans', 'sur', 'sous', 'avec', 'sans', 'pour', 'par', 'en', 'chez', 'vers', 'entre', 'parmi', 'pendant', 'depuis', 'jusque', 'avant', 'apres', 'contre', 'devant', 'derriere']
+      prepositions: ['a', 'dans', 'sur', 'sous', 'avec', 'sans', 'pour', 'par', 'en', 'chez', 'vers', 'entre', 'parmi', 'pendant', 'depuis', 'jusque', 'avant', 'apres', 'contre', 'devant', 'derriere'],
+      pronouns: ['je', 'j', 'tu', 'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles', 'me', 'm', 'te', 't', 'se', 's', 'le', 'la', 'les', 'lui', 'leur', 'en', 'y', 'qui', 'que', 'qu', 'quoi', 'dont', 'ou', 'lequel', 'laquelle', 'lesquels', 'lesquelles', 'auquel', 'duquel', 'celui', 'celle', 'ceux', 'celles', 'ceci', 'cela', 'ca', 'rien', 'personne', 'quelqu\'un', 'quelque', 'chacun', 'chacune', 'tout', 'tous', 'toute', 'toutes', 'moi', 'toi', 'soi']
     },
     en: {
       nouns: ['house', 'cat', 'dog', 'child', 'school', 'book', 'table', 'chair', 'door', 'window', 'car', 'tree', 'flower', 'sun', 'moon', 'water', 'bread', 'friend', 'family', 'day', 'night', 'hand', 'foot', 'head', 'body', 'heart', 'eyes', 'mouth', 'nose', 'ear', 'horse', 'boy', 'girl', 'man', 'woman', 'father', 'mother', 'brother', 'sister', 'king', 'queen', 'prince', 'princess'],
       verbs: ['is', 'are', 'am', 'be', 'was', 'were', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'go', 'goes', 'went', 'going', 'come', 'comes', 'came', 'coming', 'see', 'sees', 'saw', 'seeing', 'say', 'says', 'said', 'saying', 'give', 'gives', 'gave', 'giving', 'take', 'takes', 'took', 'taking', 'speak', 'speaks', 'spoke', 'speaking', 'love', 'loves', 'loved', 'loving', 'want', 'wants', 'wanted', 'wanting', 'know', 'knows', 'knew', 'knowing', 'eat', 'eats', 'ate', 'eating', 'drink', 'drinks', 'drank', 'drinking', 'sleep', 'sleeps', 'slept', 'sleeping', 'run', 'runs', 'ran', 'running', 'walk', 'walks', 'walked', 'walking', 'play', 'plays', 'played', 'playing', 'read', 'reads', 'reading', 'write', 'writes', 'wrote', 'writing', 'watch', 'watches', 'watched', 'watching', 'listen', 'listens', 'listened', 'listening'],
       adjectives: ['big', 'small', 'good', 'bad', 'beautiful', 'pretty', 'young', 'old', 'new', 'ancient', 'happy', 'sad', 'red', 'blue', 'green', 'yellow', 'white', 'black', 'hot', 'cold', 'fast', 'slow', 'strong', 'weak'],
       determiners: ['the', 'a', 'an', 'this', 'that', 'these', 'those', 'my', 'your', 'his', 'her', 'its', 'our', 'their'],
-      prepositions: ['in', 'on', 'at', 'to', 'from', 'with', 'without', 'for', 'by', 'about', 'under', 'over', 'between', 'among', 'during', 'before', 'after', 'against']
+      prepositions: ['in', 'on', 'at', 'to', 'from', 'with', 'without', 'for', 'by', 'about', 'under', 'over', 'between', 'among', 'during', 'before', 'after', 'against'],
+      pronouns: ['i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'myself', 'yourself', 'himself', 'herself', 'itself', 'ourselves', 'yourselves', 'themselves', 'who', 'whom', 'whose', 'which', 'what', 'that', 'this', 'these', 'those', 'anyone', 'someone', 'everyone', 'nobody', 'anybody', 'somebody', 'everybody', 'nothing', 'anything', 'something', 'everything']
     }
   };
 
@@ -330,6 +332,10 @@ function analyzeWordInContext(
 
   if (dict.prepositions && dict.prepositions.includes(word)) {
     return { type: 'preposition', ambiguous: false };
+  }
+
+  if (dict.pronouns && dict.pronouns.includes(word)) {
+    return { type: 'pronoun', ambiguous: false };
   }
 
   const stateVerbs = ['est', 'sont', 'etait', 'etaient', 'sera', 'seront', 'suis', 'es', 'sommes', 'etes'];

@@ -101,6 +101,19 @@ export const StoryDisplay = ({
     setEditingIndex(null);
   };
 
+  const handleDisablePictogram = () => {
+    if (editingIndex === null) return;
+
+    const newWords = [...modifiedWords];
+    newWords[editingIndex] = {
+      ...newWords[editingIndex],
+      shouldReplace: false,
+      isAmbiguous: false,
+    };
+    setModifiedWords(newWords);
+    setEditingIndex(null);
+  };
+
   const handleChangeType = async (newType: string) => {
     if (editingIndex === null) return;
 
@@ -294,7 +307,7 @@ export const StoryDisplay = ({
           if (word.shouldReplace && word.pictogramUrl) {
             const isEditing = editingIndex === index;
             return (
-              <span key={index} className="inline-flex flex-col items-center mx-1 relative">
+              <span key={index} className="inline-flex flex-col items-center mx-1 relative group">
                 <div className={`flex flex-col items-center ${word.isAmbiguous ? 'p-1 border-2 border-amber-400 rounded-lg bg-amber-50' : ''}`}>
                   <img
                     src={word.pictogramUrl}
@@ -319,26 +332,37 @@ export const StoryDisplay = ({
                       {word.original}
                     </span>
                   )}
-                  {word.isAmbiguous && (
-                    <button
-                      onClick={() => handleEditWord(index)}
-                      className="absolute -top-2 -right-2 bg-amber-500 text-white rounded-full p-1 hover:bg-amber-600 transition"
-                      title="Corriger"
-                    >
-                      <Edit2 className="w-3 h-3" />
-                    </button>
-                  )}
+                  <button
+                    onClick={() => handleEditWord(index)}
+                    className={`absolute -top-2 -right-2 ${
+                      word.isAmbiguous
+                        ? 'bg-amber-500 hover:bg-amber-600'
+                        : 'bg-blue-500 hover:bg-blue-600 opacity-0 group-hover:opacity-100'
+                    } text-white rounded-full p-1 transition`}
+                    title="Modifier"
+                  >
+                    <Edit2 className="w-3 h-3" />
+                  </button>
                 </div>
 
                 {isEditing && (
                   <div className="absolute top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10 min-w-[300px]">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-gray-800">Corriger "{word.original}"</h3>
+                      <h3 className="font-semibold text-gray-800">Modifier "{word.original}"</h3>
                       <button
                         onClick={() => setEditingIndex(null)}
                         className="text-gray-500 hover:text-gray-700"
                       >
                         <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <div className="mb-3">
+                      <button
+                        onClick={handleDisablePictogram}
+                        className="w-full px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition text-sm font-medium"
+                      >
+                        Ne pas remplacer ce mot par un pictogramme
                       </button>
                     </div>
 
