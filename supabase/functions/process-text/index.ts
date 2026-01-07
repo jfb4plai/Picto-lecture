@@ -263,7 +263,8 @@ function analyzeWordInContext(
         'cheval', 'garcon', 'fille', 'homme', 'femme', 'pere', 'mere', 'frere', 'soeur', 'roi',
         'reine', 'prince', 'princesse', 'chateau', 'jardin', 'foret', 'montagne', 'mer', 'riviere',
         'ville', 'pays', 'monde', 'ciel', 'etoile', 'nuage', 'pluie', 'vent', 'neige', 'professeur',
-        'lunette', 'lunettes', 'sac'
+        'lunette', 'lunettes', 'sac', 'chemin', 'sable', 'route', 'sentier', 'pierre', 'roche',
+        'terre', 'sol', 'herbe', 'plage', 'desert'
       ],
       verbs: [
         'est', 'sont', 'etre', 'suis', 'es', 'sommes', 'etes', 'etait', 'etaient', 'sera', 'seront',
