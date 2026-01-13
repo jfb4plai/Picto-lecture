@@ -410,7 +410,7 @@ async function searchPictogram(word: string, language: string): Promise<{ id: nu
       en: 'en',
     };
 
-    const colorPictogramIds: { [key: string]: number } = {
+    const specificPictogramIds: { [key: string]: number } = {
       'rouge': 2639, 'rouges': 2639,
       'bleu': 4869, 'bleue': 4869, 'bleus': 4869, 'bleues': 4869,
       'vert': 4887, 'verte': 4887, 'verts': 4887, 'vertes': 4887,
@@ -423,13 +423,14 @@ async function searchPictogram(word: string, language: string): Promise<{ id: nu
       'gris': 2654, 'grise': 2654, 'grises': 2654,
       'marron': 4872, 'marrons': 4872,
       'beige': 4870, 'beiges': 4870,
-      'or': 10121
+      'or': 10121,
+      'main': 5256, 'mains': 5256
     };
 
     const arasaacLang = langMap[language] || 'fr';
 
-    if (colorPictogramIds[word]) {
-      const pictogramId = colorPictogramIds[word];
+    if (specificPictogramIds[word]) {
+      const pictogramId = specificPictogramIds[word];
       return {
         id: pictogramId,
         url: `https://api.arasaac.org/api/pictograms/${pictogramId}?download=false`,

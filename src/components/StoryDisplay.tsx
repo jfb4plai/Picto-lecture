@@ -441,7 +441,7 @@ export const StoryDisplay = ({
 
           return (
             <span key={index} className="text-gray-800">
-              {word.original}
+              {normalizeDisplayText(word.original, index)}
             </span>
           );
         })}
