@@ -51,6 +51,24 @@ export const StoryDisplay = ({
     setModifiedWords(processedWords);
   }, [processedWords]);
 
+  const normalizeDisplayText = (word: string, index: number): string => {
+    if (!word) return word;
+
+    const isStartOfSentence = index === 0 ||
+      (index > 0 && modifiedWords[index - 1]?.original?.match(/[.!?]\s*$/));
+
+    if (word.toUpperCase() === word && word.length > 1) {
+      const normalized = word.toLowerCase();
+      return isStartOfSentence ? normalized.charAt(0).toUpperCase() + normalized.slice(1) : normalized;
+    }
+
+    if (!isStartOfSentence && word.charAt(0) === word.charAt(0).toUpperCase()) {
+      return word.charAt(0).toLowerCase() + word.slice(1);
+    }
+
+    return word;
+  };
+
   const hasAmbiguousWords = modifiedWords.some(w => w.isAmbiguous && w.shouldReplace);
 
   const handleEditWord = async (index: number) => {
@@ -329,7 +347,7 @@ export const StoryDisplay = ({
                       style={{ fontSize: `${fontSize}px` }}
                       title={word.isAmbiguous ? `Mot ambigu (${word.type})` : word.type}
                     >
-                      {word.original}
+                      {normalizeDisplayText(word.original, index)}
                     </span>
                   )}
                   <button

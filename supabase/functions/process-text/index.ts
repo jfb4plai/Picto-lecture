@@ -296,7 +296,11 @@ function analyzeWordInContext(
         'ecrit', 'ecris', 'ecrivons', 'ecrivez', 'ecrivent', 'ecrire', 'ecrivait', 'ecrivaient',
         'regarde', 'regardes', 'regardons', 'regardez', 'regardent', 'regarder', 'regardait', 'regardaient',
         'ecoute', 'ecoutes', 'ecoutons', 'ecoutez', 'ecoutent', 'ecouter', 'ecoutait', 'ecoutaient',
-        'porte'
+        'porte', 'crie', 'cries', 'crions', 'criez', 'crient', 'crier', 'criait', 'criaient',
+        'serre', 'serres', 'serrons', 'serrez', 'serrent', 'serrer', 'serrait', 'serraient',
+        'ouvre', 'ouvres', 'ouvrons', 'ouvrez', 'ouvrent', 'ouvrir', 'ouvrait', 'ouvraient',
+        'tue', 'tues', 'tuons', 'tuez', 'tuent', 'tuer', 'tuait', 'tuaient', 'tuera', 'tueront',
+        'entre', 'entres', 'entrons', 'entrez', 'entrent', 'entrer', 'entrait', 'entraient'
       ],
       adjectives: [
         'grand', 'grande', 'grands', 'grandes', 'petit', 'petite', 'petits', 'petites',
@@ -318,7 +322,8 @@ function analyzeWordInContext(
       determiners: ['le', 'la', 'les', 'un', 'une', 'des', 'ce', 'cet', 'cette', 'ces', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'notre', 'nos', 'votre', 'vos', 'leur', 'leurs', 'du', 'de', 'au', 'aux'],
       prepositions: ['a', 'dans', 'sur', 'sous', 'avec', 'sans', 'pour', 'par', 'en', 'chez', 'vers', 'entre', 'parmi', 'pendant', 'depuis', 'jusque', 'avant', 'apres', 'contre', 'devant', 'derriere'],
       pronouns: ['je', 'j', 'tu', 'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles', 'me', 'm', 'te', 't', 'se', 's', 'le', 'la', 'les', 'lui', 'leur', 'en', 'y', 'qui', 'que', 'qu', 'quoi', 'dont', 'ou', 'lequel', 'laquelle', 'lesquels', 'lesquelles', 'auquel', 'duquel', 'celui', 'celle', 'ceux', 'celles', 'ceci', 'cela', 'ca', 'rien', 'personne', 'quelqu\'un', 'quelque', 'chacun', 'chacune', 'tout', 'tous', 'toute', 'toutes', 'moi', 'toi', 'soi'],
-      adverbs: ['beaucoup', 'tres', 'bien', 'mal', 'plus', 'moins', 'trop', 'assez', 'peu', 'souvent', 'toujours', 'jamais', 'deja', 'encore', 'maintenant', 'hier', 'demain', 'aujourd\'hui', 'ici', 'la', 'ailleurs', 'partout', 'dedans', 'dehors', 'dessus', 'dessous', 'loin', 'pres', 'ensemble', 'aussi', 'alors', 'ainsi', 'seulement', 'surtout', 'ensuite', 'enfin', 'parfois', 'longtemps', 'tard', 'tot', 'vite', 'lentement', 'doucement', 'fort', 'facilement', 'difficilement', 'vraiment', 'certainement', 'probablement', 'peut-etre', 'evidemment', 'heureusement', 'malheureusement', 'comment', 'pourquoi', 'quand', 'combien']
+      adverbs: ['beaucoup', 'tres', 'bien', 'mal', 'plus', 'moins', 'trop', 'assez', 'peu', 'souvent', 'toujours', 'jamais', 'deja', 'encore', 'maintenant', 'hier', 'demain', 'aujourd\'hui', 'ici', 'la', 'ailleurs', 'partout', 'dedans', 'dehors', 'dessus', 'dessous', 'loin', 'pres', 'ensemble', 'aussi', 'alors', 'ainsi', 'seulement', 'surtout', 'ensuite', 'enfin', 'parfois', 'longtemps', 'tard', 'tot', 'vite', 'lentement', 'doucement', 'fort', 'facilement', 'difficilement', 'vraiment', 'certainement', 'probablement', 'peut-etre', 'evidemment', 'heureusement', 'malheureusement', 'comment', 'pourquoi', 'quand', 'combien'],
+      conjunctions: ['et', 'ou', 'mais', 'donc', 'or', 'ni', 'car']
     },
     en: {
       nouns: ['house', 'cat', 'dog', 'child', 'school', 'book', 'table', 'chair', 'door', 'window', 'car', 'tree', 'flower', 'sun', 'moon', 'water', 'bread', 'friend', 'family', 'day', 'night', 'hand', 'foot', 'head', 'body', 'heart', 'eyes', 'mouth', 'nose', 'ear', 'horse', 'boy', 'girl', 'man', 'woman', 'father', 'mother', 'brother', 'sister', 'king', 'queen', 'prince', 'princess'],
@@ -327,7 +332,8 @@ function analyzeWordInContext(
       determiners: ['the', 'a', 'an', 'this', 'that', 'these', 'those', 'my', 'your', 'his', 'her', 'its', 'our', 'their'],
       prepositions: ['in', 'on', 'at', 'to', 'from', 'with', 'without', 'for', 'by', 'about', 'under', 'over', 'between', 'among', 'during', 'before', 'after', 'against'],
       pronouns: ['i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'myself', 'yourself', 'himself', 'herself', 'itself', 'ourselves', 'yourselves', 'themselves', 'who', 'whom', 'whose', 'which', 'what', 'that', 'this', 'these', 'those', 'anyone', 'someone', 'everyone', 'nobody', 'anybody', 'somebody', 'everybody', 'nothing', 'anything', 'something', 'everything'],
-      adverbs: ['very', 'well', 'badly', 'much', 'more', 'less', 'too', 'enough', 'little', 'often', 'always', 'never', 'already', 'still', 'now', 'yesterday', 'tomorrow', 'today', 'here', 'there', 'everywhere', 'inside', 'outside', 'far', 'near', 'together', 'also', 'then', 'thus', 'only', 'especially', 'next', 'finally', 'sometimes', 'long', 'late', 'early', 'quickly', 'slowly', 'easily', 'really', 'certainly', 'probably', 'maybe', 'obviously', 'fortunately', 'unfortunately', 'how', 'why', 'when']
+      adverbs: ['very', 'well', 'badly', 'much', 'more', 'less', 'too', 'enough', 'little', 'often', 'always', 'never', 'already', 'still', 'now', 'yesterday', 'tomorrow', 'today', 'here', 'there', 'everywhere', 'inside', 'outside', 'far', 'near', 'together', 'also', 'then', 'thus', 'only', 'especially', 'next', 'finally', 'sometimes', 'long', 'late', 'early', 'quickly', 'slowly', 'easily', 'really', 'certainly', 'probably', 'maybe', 'obviously', 'fortunately', 'unfortunately', 'how', 'why', 'when'],
+      conjunctions: ['and', 'or', 'but', 'so', 'nor']
     }
   };
 
@@ -335,6 +341,10 @@ function analyzeWordInContext(
 
   if (dict.determiners.includes(word)) {
     return { type: 'determiner', ambiguous: false };
+  }
+
+  if (dict.conjunctions && dict.conjunctions.includes(word)) {
+    return { type: 'conjunction', ambiguous: false };
   }
 
   if (dict.prepositions && dict.prepositions.includes(word)) {
