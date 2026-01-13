@@ -52,7 +52,38 @@ Deno.serve(async (req: Request) => {
     const arasaacLang = langMap[language] || 'fr';
     let results: any[] = [];
 
-    if (colorWords[word]) {
+    const specificWordIds: { [key: string]: number } = {
+      'main': 5122,
+      'mains': 5122,
+      'cerf': 3668,
+      'lapin': 5566,
+      'lapins': 5566,
+      'crier': 18065,
+      'chasseur': 11537,
+      'serrer': 11980,
+      'fenêtre': 36638,
+      'maison': 5064,
+      'regarder': 18231,
+      'venir': 3479,
+      'entrer': 8800,
+      'ouvrir': 18090,
+      'tuer': 16023,
+      'principaux': 18235,
+      'principales': 18235
+    };
+
+    if (specificWordIds[word]) {
+      const pictogramId = specificWordIds[word];
+      const specificUrl = `https://api.arasaac.org/api/pictograms/${arasaacLang}/${pictogramId}`;
+      const specificResponse = await fetch(specificUrl);
+
+      if (specificResponse.ok) {
+        const result = await specificResponse.json();
+        results = [result];
+      }
+    }
+
+    if (results.length === 0 && colorWords[word]) {
       const englishColor = colorWords[word];
       const colorSearchUrl = `https://api.arasaac.org/api/pictograms/en/search/${encodeURIComponent(englishColor)}`;
       const colorResponse = await fetch(colorSearchUrl);
