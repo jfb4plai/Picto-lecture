@@ -296,7 +296,7 @@ function analyzeWordInContext(
         'ecrit', 'ecris', 'ecrivons', 'ecrivez', 'ecrivent', 'ecrire', 'ecrivait', 'ecrivaient',
         'regarde', 'regardes', 'regardons', 'regardez', 'regardent', 'regarder', 'regardait', 'regardaient',
         'ecoute', 'ecoutes', 'ecoutons', 'ecoutez', 'ecoutent', 'ecouter', 'ecoutait', 'ecoutaient',
-        'porte', 'crie', 'cries', 'crions', 'criez', 'crient', 'crier', 'criait', 'criaient',
+        'crie', 'cries', 'crions', 'criez', 'crient', 'crier', 'criait', 'criaient',
         'serre', 'serres', 'serrons', 'serrez', 'serrent', 'serrer', 'serrait', 'serraient',
         'ouvre', 'ouvres', 'ouvrons', 'ouvrez', 'ouvrent', 'ouvrir', 'ouvrait', 'ouvraient',
         'tue', 'tues', 'tuons', 'tuez', 'tuent', 'tuer', 'tuait', 'tuaient', 'tuera', 'tueront',
@@ -424,7 +424,20 @@ async function searchPictogram(word: string, language: string): Promise<{ id: nu
       'marron': 4872, 'marrons': 4872,
       'beige': 4870, 'beiges': 4870,
       'or': 10121,
-      'main': 5256, 'mains': 5256
+      'main': 5256, 'mains': 5256,
+      'porte': 8235, 'portes': 8235,
+      'cerf': 3668,
+      'lapin': 5566, 'lapins': 5566,
+      'crier': 18065,
+      'chasseur': 11537,
+      'serrer': 11980,
+      'fenetre': 36638, 'fenetres': 36638,
+      'maison': 5064, 'maisons': 5064,
+      'regarder': 18231,
+      'venir': 3479,
+      'entrer': 8800,
+      'ouvrir': 18090,
+      'tuer': 16023
     };
 
     const arasaacLang = langMap[language] || 'fr';
