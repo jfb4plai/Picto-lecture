@@ -423,21 +423,7 @@ async function searchPictogram(word: string, language: string): Promise<{ id: nu
       'gris': 2654, 'grise': 2654, 'grises': 2654,
       'marron': 4872, 'marrons': 4872,
       'beige': 4870, 'beiges': 4870,
-      'or': 10121,
-      'main': 5256, 'mains': 5256,
-      'porte': 8235, 'portes': 8235,
-      'cerf': 3668,
-      'lapin': 5566, 'lapins': 5566,
-      'crier': 18065,
-      'chasseur': 11537,
-      'serrer': 11980,
-      'fenetre': 36638, 'fenetres': 36638,
-      'maison': 5064, 'maisons': 5064,
-      'regarder': 18231,
-      'venir': 3479,
-      'entrer': 8800,
-      'ouvrir': 18090,
-      'tuer': 16023
+      'or': 10121
     };
 
     const arasaacLang = langMap[language] || 'fr';
