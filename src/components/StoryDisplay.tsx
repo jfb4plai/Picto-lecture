@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { Save, Download, FileText, AlertCircle, Edit2, RefreshCw, X, Search, Plus, FileDown } from 'lucide-react';
+import { Save, Download, FileText, AlertCircle, Edit2, RefreshCw, X, Search, Plus, FileDown, Volume2, VolumeX } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import {
   Document, Packer, Table, TableRow, TableCell, Paragraph, TextRun, ImageRun,
@@ -51,7 +51,38 @@ export const StoryDisplay = ({
   const [loadingAlternatives, setLoadingAlternatives] = useState(false);
   const [modifiedWords, setModifiedWords] = useState<ProcessedWord[]>(processedWords);
   const [searchQuery, setSearchQuery] = useState('');
+  const [speaking, setSpeaking] = useState(false);
+  const [speechRate, setSpeechRate] = useState(0.85);
   const pictogramSize = fontSize * 2.5;
+
+  const ttsLang = language === 'fr' ? 'fr-FR' : 'en-US';
+
+  const speak = (text: string) => {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = ttsLang;
+    u.rate = speechRate;
+    window.speechSynthesis.speak(u);
+  };
+
+  const speakAll = () => {
+    if (speaking) {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+      return;
+    }
+    const fullText = modifiedWords
+      .filter(w => !w.isLineBreak)
+      .map(w => w.customLabel ?? w.original)
+      .join(' ');
+    const u = new SpeechSynthesisUtterance(fullText);
+    u.lang = ttsLang;
+    u.rate = speechRate;
+    u.onend = () => setSpeaking(false);
+    u.onerror = () => setSpeaking(false);
+    setSpeaking(true);
+    window.speechSynthesis.speak(u);
+  };
 
   useEffect(() => {
     setModifiedWords(processedWords);
@@ -497,7 +528,31 @@ export const StoryDisplay = ({
             </span>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={speakAll}
+              className={`flex items-center px-4 py-2 rounded-lg transition ${
+                speaking
+                  ? 'bg-orange-500 text-white hover:bg-orange-600'
+                  : 'bg-purple-600 text-white hover:bg-purple-700'
+              }`}
+              title={speaking ? 'Arrêter la lecture' : 'Lire tout'}
+            >
+              {speaking ? <VolumeX className="w-4 h-4 mr-2" /> : <Volume2 className="w-4 h-4 mr-2" />}
+              {speaking ? 'Arrêter' : 'Lire tout'}
+            </button>
+            <select
+              value={speechRate}
+              onChange={e => setSpeechRate(Number(e.target.value))}
+              className="px-2 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 bg-white"
+              title="Vitesse de lecture"
+            >
+              <option value={0.6}>Lent</option>
+              <option value={0.85}>Normal</option>
+              <option value={1.1}>Rapide</option>
+            </select>
+          </div>
           <button
             onClick={onSave}
             disabled={saving}
@@ -573,6 +628,13 @@ export const StoryDisplay = ({
                       {getDisplayLabel(word, index)}
                     </span>
                   )}
+                  <button
+                    onClick={() => speak(getDisplayLabel(word, index))}
+                    className="absolute -top-2 -left-2 bg-purple-500 hover:bg-purple-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                    title="Écouter"
+                  >
+                    <Volume2 className="w-3 h-3" />
+                  </button>
                   <button
                     onClick={() => handleEditWord(index)}
                     className={`absolute -top-2 -right-2 ${
