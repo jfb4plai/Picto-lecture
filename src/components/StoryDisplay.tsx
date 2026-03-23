@@ -1,6 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
-import { Save, Download, FileText, AlertCircle, Edit2, RefreshCw, X, Search, Plus } from 'lucide-react';
+import { Save, Download, FileText, AlertCircle, Edit2, RefreshCw, X, Search, Plus, FileDown } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
+import {
+  Document, Packer, Table, TableRow, TableCell, Paragraph, TextRun, ImageRun,
+  BorderStyle, WidthType, AlignmentType, VerticalAlign,
+} from 'docx';
 
 type ProcessedWord = {
   original: string;
@@ -158,6 +162,109 @@ export const StoryDisplay = ({
     const newWords = [...modifiedWords];
     newWords[editingIndex] = { ...newWords[editingIndex], customLabel: label };
     setModifiedWords(newWords);
+  };
+
+  const handleExportDocx = async () => {
+    const NONE_BORDER = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' };
+    const noBorders = { top: NONE_BORDER, bottom: NONE_BORDER, left: NONE_BORDER, right: NONE_BORDER };
+
+    // Fetch an image URL and return its ArrayBuffer
+    const fetchImage = async (url: string): Promise<ArrayBuffer | null> => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.arrayBuffer();
+      } catch {
+        return null;
+      }
+    };
+
+    // Split words into lines using isLineBreak markers
+    const lines: ProcessedWord[][] = [];
+    let current: ProcessedWord[] = [];
+    for (const word of modifiedWords) {
+      if (word.isLineBreak) {
+        if (current.length > 0) { lines.push(current); current = []; }
+      } else {
+        current.push(word);
+      }
+    }
+    if (current.length > 0) lines.push(current);
+
+    // Pre-fetch all pictogram images
+    const imageCache = new Map<string, ArrayBuffer | null>();
+    await Promise.all(
+      modifiedWords
+        .filter(w => w.shouldReplace && w.pictogramUrl)
+        .map(async w => {
+          if (!imageCache.has(w.pictogramUrl!)) {
+            imageCache.set(w.pictogramUrl!, await fetchImage(w.pictogramUrl!));
+          }
+        })
+    );
+
+    const imgSize = Math.max(50, fontSize * 3);
+
+    const buildCell = (word: ProcessedWord, idx: number): TableCell => {
+      const imgData = word.shouldReplace && word.pictogramUrl ? imageCache.get(word.pictogramUrl!) : null;
+
+      if (imgData) {
+        const label = word.customLabel ?? normalizeDisplayText(word.original, idx);
+        return new TableCell({
+          borders: noBorders,
+          verticalAlign: VerticalAlign.BOTTOM,
+          width: { size: imgSize + 10, type: WidthType.DXA },
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new ImageRun({ data: imgData, transformation: { width: imgSize, height: imgSize }, type: 'png' })],
+            }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: label, size: fontSize * 1.5 })],
+            }),
+          ],
+        });
+      }
+
+      return new TableCell({
+        borders: noBorders,
+        verticalAlign: VerticalAlign.BOTTOM,
+        children: [
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: normalizeDisplayText(word.original, idx), size: fontSize * 1.5 })],
+          }),
+        ],
+      });
+    };
+
+    const tables = lines.map(line =>
+      new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [new TableRow({ children: line.map((w, i) => buildCell(w, i)) })],
+      })
+    );
+
+    const doc = new Document({
+      sections: [{
+        children: [
+          new Paragraph({
+            children: [new TextRun({ text: title, bold: true, size: 32 })],
+            spacing: { after: 200 },
+          }),
+          ...tables,
+        ],
+      }],
+    });
+
+    const blob = await Packer.toBlob(doc);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title}.docx`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleExportText = () => {
@@ -406,6 +513,13 @@ export const StoryDisplay = ({
           >
             <FileText className="w-4 h-4 mr-2" />
             {exporting ? 'Export...' : 'PDF'}
+          </button>
+          <button
+            onClick={handleExportDocx}
+            className="flex items-center px-4 py-2 bg-blue-100 text-blue-800 border border-blue-200 rounded-lg hover:bg-blue-200 transition"
+          >
+            <FileDown className="w-4 h-4 mr-2" />
+            Word
           </button>
           <button
             onClick={handleExportText}
