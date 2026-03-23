@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { Save, Download, FileText, AlertCircle, Edit2, RefreshCw, X } from 'lucide-react';
+import { Save, Download, FileText, AlertCircle, Edit2, RefreshCw, X, Search, Plus } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 
 type ProcessedWord = {
@@ -10,6 +10,7 @@ type ProcessedWord = {
   type?: string;
   isLineBreak?: boolean;
   isAmbiguous?: boolean;
+  customLabel?: string;
 };
 
 type StoryDisplayProps = {
@@ -45,6 +46,7 @@ export const StoryDisplay = ({
   const [alternatives, setAlternatives] = useState<AlternativePictogram[]>([]);
   const [loadingAlternatives, setLoadingAlternatives] = useState(false);
   const [modifiedWords, setModifiedWords] = useState<ProcessedWord[]>(processedWords);
+  const [searchQuery, setSearchQuery] = useState('');
   const pictogramSize = fontSize * 2.5;
 
   useEffect(() => {
@@ -69,16 +71,18 @@ export const StoryDisplay = ({
     return word;
   };
 
+  const getDisplayLabel = (word: ProcessedWord, index: number): string => {
+    return word.customLabel ?? normalizeDisplayText(word.original, index);
+  };
+
   const hasAmbiguousWords = modifiedWords.some(w => w.isAmbiguous && w.shouldReplace);
 
   const handleEditWord = async (index: number) => {
+    const word = modifiedWords[index];
     setEditingIndex(index);
     setAlternatives([]);
-
-    const word = modifiedWords[index];
-    if (word.original) {
-      await searchAlternatives(word.original);
-    }
+    setSearchQuery(word.original);
+    await searchAlternatives(word.original);
   };
 
   const searchAlternatives = async (word: string) => {
@@ -113,6 +117,7 @@ export const StoryDisplay = ({
       ...newWords[editingIndex],
       pictogramId: pictogram.id,
       pictogramUrl: pictogram.url,
+      shouldReplace: true,
       isAmbiguous: false,
     };
     setModifiedWords(newWords);
@@ -146,6 +151,13 @@ export const StoryDisplay = ({
     if (word.original) {
       await searchAlternatives(word.original);
     }
+  };
+
+  const handleLabelChange = (label: string) => {
+    if (editingIndex === null) return;
+    const newWords = [...modifiedWords];
+    newWords[editingIndex] = { ...newWords[editingIndex], customLabel: label };
+    setModifiedWords(newWords);
   };
 
   const handleExportText = () => {
@@ -262,6 +274,111 @@ export const StoryDisplay = ({
     }
   };
 
+  const EditPanel = ({ word, index }: { word: ProcessedWord; index: number }) => (
+    <div className="absolute top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10 min-w-[320px]">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="font-semibold text-gray-800">Modifier "{word.original}"</h3>
+        <button onClick={() => setEditingIndex(null)} className="text-gray-500 hover:text-gray-700">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Label éditable */}
+      {word.shouldReplace && word.pictogramUrl && (
+        <div className="mb-3">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Label sous le pictogramme :
+          </label>
+          <input
+            type="text"
+            value={word.customLabel ?? normalizeDisplayText(word.original, index)}
+            onChange={(e) => handleLabelChange(e.target.value)}
+            className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+      )}
+
+      {/* Désactiver le pictogramme */}
+      {word.shouldReplace && word.pictogramUrl && (
+        <div className="mb-3">
+          <button
+            onClick={handleDisablePictogram}
+            className="w-full px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition text-sm font-medium"
+          >
+            Supprimer le pictogramme
+          </button>
+        </div>
+      )}
+
+      {/* Type de mot */}
+      {word.shouldReplace && word.pictogramUrl && (
+        <div className="mb-3">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Type de mot :</label>
+          <div className="flex gap-2">
+            {['noun', 'verb', 'adjective'].map((type) => (
+              <button
+                key={type}
+                onClick={() => handleChangeType(type)}
+                className={`px-3 py-1 rounded-lg text-sm ${
+                  word.type === type ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {type === 'noun' ? 'Nom' : type === 'verb' ? 'Verbe' : 'Adjectif'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recherche libre */}
+      <div className="mb-3">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Rechercher un pictogramme :
+        </label>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && searchAlternatives(searchQuery)}
+            className="flex-1 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Mot-clé..."
+          />
+          <button
+            onClick={() => searchAlternatives(searchQuery)}
+            className="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Résultats */}
+      <div>
+        {loadingAlternatives ? (
+          <div className="flex items-center justify-center py-4">
+            <RefreshCw className="w-5 h-5 animate-spin text-blue-600" />
+          </div>
+        ) : alternatives.length > 0 ? (
+          <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto">
+            {alternatives.map((alt) => (
+              <button
+                key={alt.id}
+                onClick={() => handleSelectAlternative(alt)}
+                className="flex flex-col items-center p-2 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition"
+                title={alt.keywords.join(', ')}
+              >
+                <img src={alt.url} alt={alt.keywords.join(', ')} className="w-16 h-16 object-contain" />
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500">Aucun résultat</p>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-6">
@@ -312,18 +429,17 @@ export const StoryDisplay = ({
       <div
         ref={contentRef}
         className="prose max-w-none"
-        style={{
-          fontSize: `${fontSize}px`,
-          lineHeight: lineSpacing,
-        }}
+        style={{ fontSize: `${fontSize}px`, lineHeight: lineSpacing }}
       >
         {modifiedWords.map((word, index) => {
           if (word.isLineBreak) {
             return <div key={index} className="w-full h-0" />;
           }
 
+          const isEditing = editingIndex === index;
+
+          // Mot avec pictogramme
           if (word.shouldReplace && word.pictogramUrl) {
-            const isEditing = editingIndex === index;
             return (
               <span key={index} className="inline-flex flex-col items-center mx-1 relative group">
                 <div className={`flex flex-col items-center ${word.isAmbiguous ? 'p-1 border-2 border-amber-400 rounded-lg bg-amber-50' : ''}`}>
@@ -331,15 +447,8 @@ export const StoryDisplay = ({
                     src={word.pictogramUrl}
                     alt={word.original}
                     className="object-contain"
-                    style={{
-                      width: `${pictogramSize}px`,
-                      height: `${pictogramSize}px`,
-                      marginBottom: '2px',
-                    }}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                    }}
+                    style={{ width: `${pictogramSize}px`, height: `${pictogramSize}px`, marginBottom: '2px' }}
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
                   {!hideTextUnderPictograms && (
                     <span
@@ -347,7 +456,7 @@ export const StoryDisplay = ({
                       style={{ fontSize: `${fontSize}px` }}
                       title={word.isAmbiguous ? `Mot ambigu (${word.type})` : word.type}
                     >
-                      {normalizeDisplayText(word.original, index)}
+                      {getDisplayLabel(word, index)}
                     </span>
                   )}
                   <button
@@ -362,86 +471,23 @@ export const StoryDisplay = ({
                     <Edit2 className="w-3 h-3" />
                   </button>
                 </div>
-
-                {isEditing && (
-                  <div className="absolute top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10 min-w-[300px]">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-gray-800">Modifier "{word.original}"</h3>
-                      <button
-                        onClick={() => setEditingIndex(null)}
-                        className="text-gray-500 hover:text-gray-700"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    <div className="mb-3">
-                      <button
-                        onClick={handleDisablePictogram}
-                        className="w-full px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition text-sm font-medium"
-                      >
-                        Ne pas remplacer ce mot par un pictogramme
-                      </button>
-                    </div>
-
-                    <div className="mb-3">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Type de mot :
-                      </label>
-                      <div className="flex gap-2">
-                        {['noun', 'verb', 'adjective'].map((type) => (
-                          <button
-                            key={type}
-                            onClick={() => handleChangeType(type)}
-                            className={`px-3 py-1 rounded-lg text-sm ${
-                              word.type === type
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                            }`}
-                          >
-                            {type === 'noun' ? 'Nom' : type === 'verb' ? 'Verbe' : 'Adjectif'}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Pictogrammes alternatifs :
-                      </label>
-                      {loadingAlternatives ? (
-                        <div className="flex items-center justify-center py-4">
-                          <RefreshCw className="w-5 h-5 animate-spin text-blue-600" />
-                        </div>
-                      ) : alternatives.length > 0 ? (
-                        <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto">
-                          {alternatives.map((alt) => (
-                            <button
-                              key={alt.id}
-                              onClick={() => handleSelectAlternative(alt)}
-                              className="flex flex-col items-center p-2 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition"
-                            >
-                              <img
-                                src={alt.url}
-                                alt={alt.keywords.join(', ')}
-                                className="w-16 h-16 object-contain"
-                              />
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="text-sm text-gray-500">Aucune alternative trouvée</p>
-                      )}
-                    </div>
-                  </div>
-                )}
+                {isEditing && <EditPanel word={word} index={index} />}
               </span>
             );
           }
 
+          // Mot sans pictogramme — cliquable pour en ajouter un
           return (
-            <span key={index} className="text-gray-800">
-              {normalizeDisplayText(word.original, index)}
+            <span key={index} className="relative inline group">
+              <span className="text-gray-800">{normalizeDisplayText(word.original, index)}</span>
+              <button
+                onClick={() => handleEditWord(index)}
+                className="absolute -top-2 -right-3 bg-gray-400 hover:bg-blue-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition"
+                title="Ajouter un pictogramme"
+              >
+                <Plus className="w-3 h-3" />
+              </button>
+              {isEditing && <EditPanel word={word} index={index} />}
             </span>
           );
         })}
