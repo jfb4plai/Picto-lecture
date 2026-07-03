@@ -268,12 +268,19 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
               onChange={(e) => setNewListName(e.target.value)}
               placeholder="Nom de la liste"
               className="plai-input flex-1 text-sm"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  createWordList();
+                }
+              }}
             />
             <button
               onClick={createWordList}
-              className="plai-btn"
+              className="plai-btn flex items-center whitespace-nowrap"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 mr-1" />
+              Créer
             </button>
           </div>
 
