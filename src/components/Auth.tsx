@@ -31,24 +31,24 @@ export const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
+    <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-4">
+      <div className="plai-card w-full max-w-md shadow-xl" style={{ padding: '2rem' }}>
         <div className="flex items-center justify-center mb-8">
-          <div className="bg-blue-600 p-3 rounded-full">
+          <div className="bg-[var(--teal)] p-3 rounded-full">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
         </div>
 
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
+        <h1 className="font-serif text-3xl text-center text-[var(--text)] mb-2">
           Picto Lecture
         </h1>
-        <p className="text-center text-gray-600 mb-8">
+        <p className="text-center text-[var(--text2)] mb-8">
           Aide à la lecture par pictogrammes
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="plai-label">
               Email
             </label>
             <input
@@ -56,14 +56,14 @@ export const Auth = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              className="plai-input"
               placeholder="votre@email.com"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="password" className="plai-label">
               Mot de passe
             </label>
             <input
@@ -71,7 +71,7 @@ export const Auth = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              className="plai-input"
               placeholder="••••••••"
               required
               minLength={6}
@@ -79,7 +79,7 @@ export const Auth = () => {
           </div>
 
           {error && (
-            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm">
+            <div className="plai-error">
               {error}
             </div>
           )}
@@ -87,7 +87,7 @@ export const Auth = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="plai-btn w-full py-3 text-base"
           >
             {loading ? 'Chargement...' : (isLogin ? 'Se connecter' : "S'inscrire")}
           </button>
@@ -96,7 +96,7 @@ export const Auth = () => {
         <div className="mt-6 text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-600 hover:text-blue-700 text-sm font-medium transition"
+            className="text-[var(--teal)] hover:opacity-80 text-sm font-medium transition"
           >
             {isLogin ? "Créer un compte" : "Déjà inscrit ? Se connecter"}
           </button>

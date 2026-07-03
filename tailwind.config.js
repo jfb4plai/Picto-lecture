@@ -16,7 +16,8 @@ export default {
         'jfb-subtil':    '#f9f9f7',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['DM Sans', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['DM Serif Display', 'serif'],
       },
     },
   },

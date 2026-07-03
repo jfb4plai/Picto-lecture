@@ -413,9 +413,9 @@ export const StoryDisplay = ({
   };
 
   const EditPanel = ({ word, index }: { word: ProcessedWord; index: number }) => (
-    <div className="absolute top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10 min-w-[320px]">
+    <div className="absolute top-full mt-2 bg-white border rounded-lg shadow-lg p-4 z-10 min-w-[320px]" style={{ borderColor: 'var(--border)' }}>
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold text-gray-800">Modifier "{word.original}"</h3>
+        <h3 className="font-semibold text-[var(--text)]">Modifier "{word.original}"</h3>
         <button onClick={() => setEditingIndex(null)} className="text-gray-500 hover:text-gray-700">
           <X className="w-4 h-4" />
         </button>
@@ -424,14 +424,15 @@ export const StoryDisplay = ({
       {/* Label éditable */}
       {word.shouldReplace && word.pictogramUrl && (
         <div className="mb-3">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="plai-label">
             Label sous le pictogramme :
           </label>
           <input
             type="text"
             value={word.customLabel ?? normalizeDisplayText(word.original, index)}
             onChange={(e) => handleLabelChange(e.target.value)}
-            className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="plai-input text-sm"
+            style={{ padding: '6px 12px' }}
           />
         </div>
       )}
@@ -451,15 +452,18 @@ export const StoryDisplay = ({
       {/* Type de mot */}
       {word.shouldReplace && word.pictogramUrl && (
         <div className="mb-3">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Type de mot :</label>
+          <label className="plai-label">Type de mot :</label>
           <div className="flex gap-2">
             {['noun', 'verb', 'adjective'].map((type) => (
               <button
                 key={type}
                 onClick={() => handleChangeType(type)}
-                className={`px-3 py-1 rounded-lg text-sm ${
-                  word.type === type ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className="px-3 py-1 rounded-lg text-sm transition"
+                style={
+                  word.type === type
+                    ? { background: 'var(--teal)', color: '#fff' }
+                    : { background: 'var(--surface2)', color: 'var(--text2)' }
+                }
               >
                 {type === 'noun' ? 'Nom' : type === 'verb' ? 'Verbe' : 'Adjectif'}
               </button>
@@ -470,7 +474,7 @@ export const StoryDisplay = ({
 
       {/* Recherche libre */}
       <div className="mb-3">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="plai-label">
           Rechercher un pictogramme :
         </label>
         <div className="flex gap-2">
@@ -479,12 +483,14 @@ export const StoryDisplay = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && searchAlternatives(searchQuery)}
-            className="flex-1 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="plai-input flex-1 text-sm"
+            style={{ padding: '6px 12px' }}
             placeholder="Mot-clé..."
           />
           <button
             onClick={() => searchAlternatives(searchQuery)}
-            className="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="plai-btn"
+            style={{ padding: '6px 12px' }}
           >
             <Search className="w-4 h-4" />
           </button>
@@ -495,7 +501,7 @@ export const StoryDisplay = ({
       <div>
         {loadingAlternatives ? (
           <div className="flex items-center justify-center py-4">
-            <RefreshCw className="w-5 h-5 animate-spin text-blue-600" />
+            <RefreshCw className="w-5 h-5 animate-spin" style={{ color: 'var(--teal)' }} />
           </div>
         ) : alternatives.length > 0 ? (
           <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto">
@@ -503,7 +509,8 @@ export const StoryDisplay = ({
               <button
                 key={alt.id}
                 onClick={() => handleSelectAlternative(alt)}
-                className="flex flex-col items-center p-2 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition"
+                className="flex flex-col items-center p-2 border rounded-lg transition hover:bg-[var(--teal-bg)]"
+                style={{ borderColor: 'var(--border)' }}
                 title={alt.keywords.join(', ')}
               >
                 <img src={alt.url} alt={alt.keywords.join(', ')} className="w-16 h-16 object-contain" />
@@ -518,12 +525,12 @@ export const StoryDisplay = ({
   );
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="plai-card">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+          <h2 className="font-serif text-xl text-[var(--text)]">{title}</h2>
           {hideTextUnderPictograms && (
-            <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">
+            <span className="px-2 py-1 text-xs font-medium rounded" style={{ background: 'var(--teal-bg)', color: 'var(--teal)' }}>
               Mode sans texte
             </span>
           )}
@@ -556,7 +563,7 @@ export const StoryDisplay = ({
           <button
             onClick={onSave}
             disabled={saving}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+            className="plai-btn flex items-center"
           >
             <Save className="w-4 h-4 mr-2" />
             {saving ? 'Sauvegarde...' : 'Sauvegarder'}
@@ -571,7 +578,7 @@ export const StoryDisplay = ({
           </button>
           <button
             onClick={handleExportDocx}
-            className="flex items-center px-4 py-2 bg-blue-100 text-blue-800 border border-blue-200 rounded-lg hover:bg-blue-200 transition"
+            className="plai-btn-ghost flex items-center"
           >
             <FileDown className="w-4 h-4 mr-2" />
             Word
@@ -637,11 +644,12 @@ export const StoryDisplay = ({
                   </button>
                   <button
                     onClick={() => handleEditWord(index)}
-                    className={`absolute -top-2 -right-2 ${
+                    className={`absolute -top-2 -right-2 text-white rounded-full p-1 transition ${
                       word.isAmbiguous
                         ? 'bg-amber-500 hover:bg-amber-600'
-                        : 'bg-blue-500 hover:bg-blue-600 opacity-0 group-hover:opacity-100'
-                    } text-white rounded-full p-1 transition`}
+                        : 'opacity-0 group-hover:opacity-100'
+                    }`}
+                    style={word.isAmbiguous ? undefined : { background: 'var(--teal)' }}
                     title="Modifier"
                   >
                     <Edit2 className="w-3 h-3" />
@@ -658,7 +666,7 @@ export const StoryDisplay = ({
               <span className="text-gray-800">{normalizeDisplayText(word.original, index)}</span>
               <button
                 onClick={() => handleEditWord(index)}
-                className="absolute -top-2 -right-3 bg-gray-400 hover:bg-blue-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition"
+                className="absolute -top-2 -right-3 bg-gray-400 hover:bg-[var(--teal)] text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition"
                 title="Ajouter un pictogramme"
               >
                 <Plus className="w-3 h-3" />

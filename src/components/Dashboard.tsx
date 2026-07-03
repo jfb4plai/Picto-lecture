@@ -125,16 +125,16 @@ export const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <header className="bg-white shadow-sm border-b border-gray-200">
+    <div className="min-h-screen bg-[var(--bg)]">
+      <header className="bg-white border-b border-[var(--border)]">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center flex-1">
-            <div className="bg-blue-600 p-2 rounded-lg mr-3">
+            <div className="bg-[var(--teal)] p-2 rounded-lg mr-3">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800">Picto Lecture</h1>
-              <p className="text-xs text-gray-600">{user?.email}</p>
+              <h1 className="font-serif text-xl text-[var(--text)]">Picto Lecture</h1>
+              <p className="text-xs text-[var(--text2)]">{user?.email}</p>
             </div>
           </div>
 
@@ -149,7 +149,7 @@ export const Dashboard = () => {
           <div className="flex-1 flex justify-end">
             <button
               onClick={() => signOut()}
-              className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+              className="plai-btn-ghost flex items-center"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Déconnexion

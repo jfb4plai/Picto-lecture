@@ -44,7 +44,7 @@ export const StoriesList = ({ onStorySelect, refreshTrigger }: StoriesListProps)
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="plai-card">
         Chargement...
       </div>
     );
@@ -52,29 +52,30 @@ export const StoriesList = ({ onStorySelect, refreshTrigger }: StoriesListProps)
 
   if (stories.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center text-gray-500">
+      <div className="plai-empty">
         Aucune histoire sauvegardée
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="plai-card">
       <div className="flex items-center mb-4">
-        <BookOpen className="w-5 h-5 text-blue-600 mr-2" />
-        <h2 className="text-xl font-semibold text-gray-800">Mes histoires</h2>
+        <BookOpen className="w-5 h-5 text-[var(--teal)] mr-2" />
+        <h2 className="font-serif text-xl text-[var(--text)]">Mes histoires</h2>
       </div>
 
       <div className="space-y-3">
         {stories.map((story) => (
           <div
             key={story.id}
-            className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition cursor-pointer group"
+            className="border rounded-lg p-4 transition cursor-pointer group hover:border-[var(--teal)]"
+            style={{ borderColor: 'var(--border)' }}
             onClick={() => onStorySelect(story)}
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h3 className="font-medium text-gray-800 group-hover:text-blue-600 transition">
+                <h3 className="font-medium text-[var(--text)] transition group-hover:text-[var(--teal)]">
                   {story.title}
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
@@ -94,7 +95,8 @@ export const StoriesList = ({ onStorySelect, refreshTrigger }: StoriesListProps)
                     e.stopPropagation();
                     onStorySelect(story);
                   }}
-                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                  className="p-2 rounded-lg transition hover:bg-[var(--teal-bg)]"
+                  style={{ color: 'var(--teal)' }}
                   title="Voir"
                 >
                   <Eye className="w-4 h-4" />

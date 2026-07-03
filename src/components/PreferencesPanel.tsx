@@ -170,22 +170,22 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
   };
 
   if (loading || !preferences) {
-    return <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">Chargement...</div>;
+    return <div className="plai-card">Chargement...</div>;
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="plai-card">
       <div className="flex items-center mb-6">
-        <Settings className="w-5 h-5 text-blue-600 mr-2" />
-        <h2 className="text-xl font-semibold text-gray-800">Paramètres</h2>
+        <Settings className="w-5 h-5 text-[var(--teal)] mr-2" />
+        <h2 className="font-serif text-xl text-[var(--text)]">Paramètres</h2>
       </div>
 
       <div className="space-y-6">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="rounded-lg p-4" style={{ background: 'var(--teal-bg)', border: '1px solid var(--teal-border)' }}>
           <label className="flex items-center justify-between cursor-pointer">
             <div>
-              <h3 className="text-sm font-semibold text-gray-800 mb-1">Masquer le texte sous les pictogrammes</h3>
-              <p className="text-xs text-gray-600">Pour les exercices oraux ou les dictées où l'apprenant doit uniquement voir l'image</p>
+              <h3 className="text-sm font-semibold text-[var(--text)] mb-1">Masquer le texte sous les pictogrammes</h3>
+              <p className="text-xs text-[var(--text2)]">Pour les exercices oraux ou les dictées où l'apprenant doit uniquement voir l'image</p>
             </div>
             <input
               type="checkbox"
@@ -193,19 +193,20 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
               onChange={(e) =>
                 setPreferences({ ...preferences, hide_text_under_pictograms: e.target.checked })
               }
-              className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+              className="w-5 h-5 rounded focus:ring-2"
+              style={{ accentColor: 'var(--teal)' }}
             />
           </label>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Langue</h3>
+          <h3 className="text-sm font-semibold text-[var(--text2)] mb-3">Langue</h3>
           <select
             value={preferences.language}
             onChange={(e) =>
               setPreferences({ ...preferences, language: e.target.value })
             }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="plai-input"
           >
             <option value="fr">Français</option>
             <option value="en">English</option>
@@ -213,7 +214,7 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Remplacer par nature</h3>
+          <h3 className="text-sm font-semibold text-[var(--text2)] mb-3">Remplacer par nature</h3>
           <div className="space-y-2">
             <label className="flex items-center">
               <input
@@ -222,9 +223,10 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                 onChange={(e) =>
                   setPreferences({ ...preferences, replace_nouns: e.target.checked })
                 }
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                className="w-4 h-4 rounded focus:ring-2"
+                style={{ accentColor: 'var(--teal)' }}
               />
-              <span className="ml-3 text-gray-700">Noms</span>
+              <span className="ml-3 text-[var(--text)]">Noms</span>
             </label>
             <label className="flex items-center">
               <input
@@ -233,9 +235,10 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                 onChange={(e) =>
                   setPreferences({ ...preferences, replace_verbs: e.target.checked })
                 }
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                className="w-4 h-4 rounded focus:ring-2"
+                style={{ accentColor: 'var(--teal)' }}
               />
-              <span className="ml-3 text-gray-700">Verbes</span>
+              <span className="ml-3 text-[var(--text)]">Verbes</span>
             </label>
             <label className="flex items-center">
               <input
@@ -244,16 +247,17 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                 onChange={(e) =>
                   setPreferences({ ...preferences, replace_adjectives: e.target.checked })
                 }
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                className="w-4 h-4 rounded focus:ring-2"
+                style={{ accentColor: 'var(--teal)' }}
               />
-              <span className="ml-3 text-gray-700">Adjectifs</span>
+              <span className="ml-3 text-[var(--text)]">Adjectifs</span>
             </label>
           </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 mb-2">Listes de mots personnalisées</h3>
-          <p className="text-xs text-gray-600 mb-3">
+          <h3 className="text-sm font-semibold text-[var(--text2)] mb-2">Listes de mots personnalisées</h3>
+          <p className="text-xs text-[var(--text3)] mb-3">
             Créez des listes et ajoutez les mots que vous souhaitez remplacer par des pictogrammes. Les expressions multi-mots sont supportées (ex: "Père Noël", "salle de bains"). Cochez les listes que vous souhaitez activer.
           </p>
 
@@ -263,11 +267,11 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
               value={newListName}
               onChange={(e) => setNewListName(e.target.value)}
               placeholder="Nom de la liste"
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="plai-input flex-1 text-sm"
             />
             <button
               onClick={createWordList}
-              className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="plai-btn"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -275,20 +279,20 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
 
           <div className="space-y-3">
             {wordLists.map((list) => (
-              <div key={list.id} className="border border-gray-200 rounded-lg p-3">
+              <div key={list.id} className="border rounded-lg p-3" style={{ borderColor: 'var(--border)' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 flex-1">
                     <input
                       type="checkbox"
                       checked={list.enabled}
                       onChange={() => toggleListEnabled(list.id, !list.enabled)}
-                      className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                      className="w-4 h-4 rounded focus:ring-2"
+                      style={{ accentColor: 'var(--teal)' }}
                     />
                     <button
                       onClick={() => setSelectedListId(selectedListId === list.id ? null : list.id)}
-                      className={`font-medium transition ${
-                        list.enabled ? 'text-gray-800 hover:text-blue-600' : 'text-gray-400'
-                      }`}
+                      className="font-medium transition"
+                      style={{ color: list.enabled ? 'var(--text)' : 'var(--text3)' }}
                     >
                       {list.name} ({(list.words || []).length})
                     </button>
@@ -302,14 +306,15 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                 </div>
 
                 {selectedListId === list.id && (
-                  <div className="space-y-2 mt-3 pt-3 border-t border-gray-200">
+                  <div className="space-y-2 mt-3 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
                     <div className="flex gap-2">
                       <input
                         type="text"
                         value={newWord}
                         onChange={(e) => setNewWord(e.target.value)}
                         placeholder="Tapez un ou plusieurs mots séparés par des virgules, puis Entrée"
-                        className="flex-1 px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="plai-input flex-1 text-sm"
+                        style={{ padding: '4px 12px' }}
                         onKeyPress={(e) => {
                           if (e.key === 'Enter') {
                             e.preventDefault();
@@ -319,14 +324,15 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                       />
                       <button
                         onClick={() => addWordToList(list.id)}
-                        className="flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
+                        className="plai-btn flex items-center whitespace-nowrap"
+                        style={{ padding: '4px 12px' }}
                       >
                         <Plus className="w-4 h-4 mr-1" />
                         Ajouter
                       </button>
                     </div>
                     {(list.words || []).length === 0 && (
-                      <p className="text-xs text-gray-500 italic">
+                      <p className="text-xs italic" style={{ color: 'var(--text3)' }}>
                         Aucun mot dans cette liste. Ajoutez des mots ci-dessus.
                       </p>
                     )}
@@ -334,12 +340,14 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                       {(list.words || []).map((word) => (
                         <span
                           key={word}
-                          className="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-700 rounded text-sm"
+                          className="inline-flex items-center px-2 py-1 rounded text-sm"
+                          style={{ background: 'var(--teal-bg)', color: 'var(--teal)' }}
                         >
                           {word}
                           <button
                             onClick={() => removeWordFromList(list.id, word)}
-                            className="ml-2 text-blue-500 hover:text-blue-700"
+                            className="ml-2 hover:opacity-70"
+                            style={{ color: 'var(--teal)' }}
                           >
                             <X className="w-3 h-3" />
                           </button>
@@ -356,7 +364,7 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
         <button
           onClick={savePreferences}
           disabled={saving}
-          className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+          className="plai-btn w-full flex items-center justify-center py-3"
         >
           <Save className="w-4 h-4 mr-2" />
           {saving ? 'Sauvegarde...' : 'Sauvegarder les paramètres'}

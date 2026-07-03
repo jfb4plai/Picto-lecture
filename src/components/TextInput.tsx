@@ -53,12 +53,12 @@ export const TextInput = ({ onTextSubmit, loading }: TextInputProps) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Nouvelle histoire</h2>
+    <div className="plai-card">
+      <h2 className="font-serif text-xl text-[var(--text)] mb-4">Nouvelle histoire</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="title" className="plai-label">
             Titre
           </label>
           <input
@@ -66,14 +66,14 @@ export const TextInput = ({ onTextSubmit, loading }: TextInputProps) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="plai-input"
             placeholder="Mon histoire"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="plai-label">
             Texte
           </label>
 
@@ -105,7 +105,7 @@ export const TextInput = ({ onTextSubmit, loading }: TextInputProps) => {
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[200px]"
+            className="plai-input min-h-[200px]"
             placeholder="Collez ou saisissez votre texte ici..."
             required
           />
@@ -115,7 +115,7 @@ export const TextInput = ({ onTextSubmit, loading }: TextInputProps) => {
           <button
             type="submit"
             disabled={loading || !text.trim() || !title.trim()}
-            className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="plai-btn flex-1 py-3 text-base"
           >
             {loading ? 'Traitement en cours...' : 'Générer les pictogrammes'}
           </button>
@@ -123,7 +123,7 @@ export const TextInput = ({ onTextSubmit, loading }: TextInputProps) => {
             <button
               type="button"
               onClick={handleClear}
-              className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+              className="plai-btn-ghost px-4 py-3"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
