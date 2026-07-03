@@ -147,10 +147,15 @@ export const TextInput = ({ onTextSubmit, loading }: TextInputProps) => {
         >
           <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#a3760f' }} />
           <div className="text-xs" style={{ color: '#6b5216' }}>
-            <strong>Simplification FALC — usage ponctuel, pas systématique.</strong> À réserver aux
-            cas où la syntaxe elle-même fait obstacle (déficience intellectuelle, dyslexie sévère,
-            allophone). L'exposition à des phrases de complexité croissante fait partie de
-            l'apprentissage de la lecture : ne pas l'utiliser pour chaque histoire.
+            <strong>Simplification inspirée du FALC — usage ponctuel, pas systématique.</strong> À
+            réserver aux cas où la syntaxe elle-même fait obstacle (déficience intellectuelle,
+            dyslexie sévère, allophone). L'exposition à des phrases de complexité croissante fait
+            partie de l'apprentissage de la lecture : ne pas l'utiliser pour chaque histoire.
+            <div className="mt-1" style={{ color: '#6b5216' }}>
+              Ceci n'est pas du FALC certifié : le FALC officiel exige une validation par un
+              relecteur porteur de déficience intellectuelle. Cet outil s'inspire de règles
+              propres au FALC, sans remplacer cette validation.
+            </div>
             <div className="mt-1 italic" style={{ color: '#8a6c22' }}>
               Fondé sur le corpus RISS (Balssa, 2024 — FALC et école inclusive).
             </div>
@@ -165,7 +170,7 @@ export const TextInput = ({ onTextSubmit, loading }: TextInputProps) => {
           style={{ borderColor: '#d4af5a', color: '#8a6c22', background: '#fdf8ec' }}
         >
           <Wand2 className="w-4 h-4" />
-          {falcLoading ? 'Simplification en cours...' : 'Simplifier en FALC avant génération'}
+          {falcLoading ? 'Simplification en cours...' : 'Simplifier (inspiré du FALC) avant génération'}
         </button>
 
         <div className="flex gap-3">
