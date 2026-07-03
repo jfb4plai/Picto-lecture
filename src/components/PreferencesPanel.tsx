@@ -319,9 +319,10 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                       />
                       <button
                         onClick={() => addWordToList(list.id)}
-                        className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm"
+                        className="flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm font-medium whitespace-nowrap"
                       >
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-4 h-4 mr-1" />
+                        Ajouter
                       </button>
                     </div>
                     {(list.words || []).length === 0 && (
