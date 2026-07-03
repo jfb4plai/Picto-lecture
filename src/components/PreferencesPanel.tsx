@@ -102,14 +102,22 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
     const list = wordLists.find((l) => l.id === listId);
     if (!list) return;
 
-    const normalizedWord = newWord.trim().toLowerCase();
+    const existingWords = list.words || [];
+    const newNormalizedWords = newWord
+      .split(',')
+      .map((w) => w.trim().toLowerCase())
+      .filter((w) => w.length > 0);
 
-    if ((list.words || []).includes(normalizedWord)) {
-      alert('Ce mot est déjà dans la liste');
+    const wordsToAdd = [...new Set(newNormalizedWords)].filter(
+      (w) => !existingWords.includes(w)
+    );
+
+    if (wordsToAdd.length === 0) {
+      alert('Ce(s) mot(s) sont déjà dans la liste');
       return;
     }
 
-    const updatedWords = [...(list.words || []), normalizedWord];
+    const updatedWords = [...existingWords, ...wordsToAdd];
 
     await supabase
       .from('custom_word_lists')
@@ -300,7 +308,7 @@ export const PreferencesPanel = ({ onPreferencesChange }: PreferencesPanelProps)
                         type="text"
                         value={newWord}
                         onChange={(e) => setNewWord(e.target.value)}
-                        placeholder="Tapez un mot et appuyez sur Entrée"
+                        placeholder="Tapez un ou plusieurs mots séparés par des virgules, puis Entrée"
                         className="flex-1 px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         onKeyPress={(e) => {
                           if (e.key === 'Enter') {
