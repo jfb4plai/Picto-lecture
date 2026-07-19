@@ -52,43 +52,13 @@ Deno.serve(async (req: Request) => {
     const arasaacLang = langMap[language] || 'fr';
     let results: any[] = [];
 
-    const specificWordIds: { [key: string]: number } = {
-      'main': 5122,
-      'mains': 5122,
-      'porte': 8235,
-      'portes': 8235,
-      'cerf': 3668,
-      'lapin': 5566,
-      'lapins': 5566,
-      'crier': 18065,
-      'chasseur': 11537,
-      'serrer': 11980,
-      'fenêtre': 36638,
-      'fenetre': 36638,
-      'fenetres': 36638,
-      'maison': 5064,
-      'maisons': 5064,
-      'regarder': 18231,
-      'venir': 3479,
-      'entrer': 8800,
-      'ouvrir': 18090,
-      'tuer': 16023,
-      'principaux': 18235,
-      'principales': 18235
-    };
+    // Note : une table de correspondances mot -> ID ARASAAC codée en dur existait ici
+    // (raccourci pour éviter une recherche plein texte). Retirée le 2026-07-19 : la
+    // majorité des ID renvoyaient une 404, et ceux qui répondaient pointaient vers des
+    // pictogrammes sans rapport avec le mot (ex. "maison" -> anneaux olympiques). La
+    // recherche plein texte ci-dessous donne des résultats corrects pour ces mêmes mots.
 
-    if (specificWordIds[word]) {
-      const pictogramId = specificWordIds[word];
-      const specificUrl = `https://api.arasaac.org/api/pictograms/${arasaacLang}/${pictogramId}`;
-      const specificResponse = await fetch(specificUrl);
-
-      if (specificResponse.ok) {
-        const result = await specificResponse.json();
-        results = [result];
-      }
-    }
-
-    if (results.length === 0 && colorWords[word]) {
+    if (colorWords[word]) {
       const englishColor = colorWords[word];
       const colorSearchUrl = `https://api.arasaac.org/api/pictograms/en/search/${encodeURIComponent(englishColor)}`;
       const colorResponse = await fetch(colorSearchUrl);
