@@ -3,7 +3,7 @@ import { Auth } from './components/Auth';
 import { Dashboard } from './components/Dashboard';
 
 function AppContent() {
-  const { user, loading } = useAuth();
+  const { user, loading, passwordRecovery } = useAuth();
 
   if (loading) {
     return (
@@ -13,7 +13,7 @@ function AppContent() {
     );
   }
 
-  return user ? <Dashboard /> : <Auth />;
+  return user && !passwordRecovery ? <Dashboard /> : <Auth />;
 }
 
 function App() {
