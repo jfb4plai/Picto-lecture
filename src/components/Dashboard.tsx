@@ -134,7 +134,6 @@ export const Dashboard = () => {
             </div>
             <div>
               <h1 className="font-serif text-xl text-[var(--text)]">Picto Lecture</h1>
-              <p className="text-xs text-[var(--text2)]">{user?.email}</p>
             </div>
           </div>
 
